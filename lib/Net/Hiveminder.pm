@@ -2,7 +2,6 @@
 package Net::Hiveminder;
 use Moose;
 extends 'Net::Jifty';
-use Net::Hiveminder::Task;
 
 use Number::RecordLocator;
 my $LOCATOR = Number::RecordLocator->new;
@@ -80,17 +79,15 @@ The arguments currently respected are:
 Make the record locator (C<#foo>) into an HTML link, pointing to the task on
 C<site>.
 
-=item color
-
-Use ANSI escape-sequence colors.
-
 =back
 
 =cut
 
 sub display_tasks {
     my $self = shift;
+    my @out;
 
+    my $now = DateTime->now;
     my %email_of;
 
     my %args;
@@ -98,7 +95,60 @@ sub display_tasks {
         %args = @{ shift(@_) };
     }
 
-    my @out = map { $_->display } @_;
+    for my $task (@_) {
+        my $locator = $self->id2loc($task->{id});
+        my $display;
+
+        if ($task->{complete}) {
+            $display .= '* ';
+        }
+
+        if ($args{linkify_locator}) {
+            $display .= sprintf '<a href="%s/task/%s">#%s</a>: %s',
+                $self->site,
+                $locator,
+                $locator,
+                $task->{summary};
+        }
+        else {
+            $display .= "#$locator: $task->{summary}";
+        }
+
+        # don't display start date if it's <= today
+        delete $task->{starts}
+            if $task->{starts}
+            && $self->load_date($task->{starts}) < $now;
+
+        $display .= " [$task->{tags}]" if $task->{tags};
+        for my $field (qw/due starts group/) {
+            $display .= " [$field: $task->{$field}]"
+                if $task->{$field};
+        }
+
+        $display .= " [priority: " . $self->priority($task->{priority}) . "]"
+            if $task->{priority} != 3;
+
+        my $helper = sub {
+            my ($field, $name) = @_;
+
+            my $id = $task->{$field}
+                or return;
+
+            # this wants to be //=. oh well
+            my $email = $email_of{$id} ||= $self->email_of($id)
+                or return;
+
+            $self->is_me($email)
+                and return;
+
+            $display .= " [$name: $email]";
+        };
+
+        $helper->('requestor_id', 'for');
+        $helper->('owner_id', 'by');
+
+        push @out, $display;
+    }
 
     return wantarray ? @out : join "\n", @out;
 }
@@ -118,10 +168,7 @@ sub get_tasks {
     my @args = @_;
     unshift @args, "tokens" if @args == 1;
 
-    $self->create_model_class('Task');
-
-    return map { Net::Hiveminder::Task->new(_interface => $self, %$_) }
-           @{ $self->act('TaskSearch', @args)->{content}{tasks} };
+    return @{ $self->act('TaskSearch', @args)->{content}{tasks} };
 }
 
 =head2 todo_tasks [ARGS]
@@ -206,8 +253,7 @@ sub read_task {
     my $loc   = shift;
     my $id    = $self->loc2id($loc);
 
-    $self->create_model_class('Task');
-    return Net::Hiveminder::Task->load($self, $id);
+    return $self->read(Task => id => $id);
 }
 
 =head2 update_task LOCATOR, ARGS
@@ -352,9 +398,7 @@ sub braindump {
         return @{ $ret->{content}->{ids} || [] };
     }
     elsif ($args{returns} eq 'tasks') {
-        $self->create_model_class('Task');
-        return map { Net::Hiveminder::Task->new(_interface => $self, %$_) }
-               @{ $ret->{content}->{created} || [] };
+        return @{ $ret->{content}->{created} || [] };
     }
 
     return $ret->{message};
