@@ -581,7 +581,7 @@ L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-Hiveminder>.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2007 Best Practical Solutions.
+Copyright 2007-2008 Best Practical Solutions.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
