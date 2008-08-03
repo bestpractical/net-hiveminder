@@ -567,7 +567,7 @@ Sends the given TEXT as feedback to the Hiveminder team.
 
 =head1 SEE ALSO
 
-L<Jifty>, L<Net::Jifty>
+L<App::Todo>, L<Jifty>, L<Net::Jifty>
 
 =head1 AUTHOR
 
