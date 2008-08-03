@@ -1,8 +1,6 @@
 Revision history for Net-Hiveminder
 
 0.06
-        Add a "color" option to display_tasks; color the record locator by
-            priority
         Allow passing arguments from todo to display_tasks
         Add a send_feedback method
 
