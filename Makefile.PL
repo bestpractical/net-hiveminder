@@ -28,6 +28,7 @@ install_script "bin/hm-$_"
 recursive_author_tests 'xt';
 
 auto_install;
+sign;
 WriteAll;
 
 
