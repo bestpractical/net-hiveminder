@@ -5,6 +5,7 @@ extends 'Net::Jifty';
 
 our $VERSION = '0.05';
 
+use DateTime;
 use Number::RecordLocator;
 my $LOCATOR = Number::RecordLocator->new;
 
