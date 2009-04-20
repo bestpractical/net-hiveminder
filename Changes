@@ -1,5 +1,9 @@
 Revision history for Net-Hiveminder
 
+0.07    Mon Apr 20 15:22:52 CST 2009
+        Dependency cleanups, releng, pod coverage thanks to c9s++
+        
+
 0.06
         Allow passing arguments from todo to display_tasks
         Add a send_feedback method

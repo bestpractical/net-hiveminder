@@ -7,4 +7,4 @@ twitter.config = ~/.twitterrc
 # svn.tagpattern = MyProj-%v
 # svn.tagpattern = http://code.example.com/svn/tags/MyProj-%v
 
-CheckChangeLog.files = ChangeLog, Changes
+CheckChangeLog.files = Changes

@@ -3,6 +3,6 @@
 .shipit
 blib/
 pm_to_blib
-Makefile
+Makefile$
 .bak$
 MANIFEST.SKIP

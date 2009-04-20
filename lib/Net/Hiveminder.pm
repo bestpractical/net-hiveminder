@@ -3,7 +3,7 @@ package Net::Hiveminder;
 use Moose;
 extends 'Net::Jifty';
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 use DateTime;
 use Number::RecordLocator;
