@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package Net::Hiveminder;
 use Moose;
 extends 'Net::Jifty';
