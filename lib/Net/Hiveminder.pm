@@ -376,6 +376,15 @@ sub send_feedback {
     $self->act('SendFeedback', content => $text);
 }
 
+
+sub get_task_history {
+    my $self = shift;
+    my $task_id = $self->loc2id(shift);
+
+    # see http://hiveminder.com/=/model/BTDT.Model.TaskTransaction
+    return $self->search( 'TaskTransaction', task_id => $task_id, );
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
@@ -571,6 +580,20 @@ of Net::Hiveminder. If Creator is unavailable, then this will throw an error.
 =head2 send_feedback TEXT
 
 Sends the given TEXT as feedback to the Hiveminder team.
+
+=head2 get_task_history LOCATOR
+
+Load the transaction history for task LOCATOR.
+
+Returns an array of transactions looking like:
+
+$VAR1 = {
+    'modified_at' => '2008-07-24 15:38:06',
+    'type' => 'update',
+    'id' => '1745040',
+    'task_id' => '433397',
+    'created_by' => '463'
+};
 
 =head1 SEE ALSO
 
