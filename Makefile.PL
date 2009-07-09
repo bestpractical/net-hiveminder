@@ -8,16 +8,15 @@ requires        'Moose';
 requires        'Net::Jifty' => '0.06';
 requires        'Number::RecordLocator';
 
-features(
-    'commandline tool' => [
-        -default => 1,
-        requires('Term::Encoding'),
-     ],
-    'comment on tasks' => [
-        -default => 1,
-        requires        'Email::Simple', 
-        'Email::Simple::Creator'
-    ],
+feature 'commandline tool' => (
+    -default => 1,
+    recommends('Term::Encoding'),
+);
+
+feature 'comment on tasks' => (
+    -default => 1,
+    recommends('Email::Simple'),
+    recommends('Email::Simple::Creator'),
 );
 
 
