@@ -319,12 +319,6 @@ sub loc2id {
     return wantarray ? @ids : $ids[0];
 }
 
-=head2 tasks2ids
-
-Deprecated 
-
-=cut
-
 sub tasks2ids {
     Carp::carp "Net::Hiveminder->tasks2ids is deprecated, use loc2id instead.";
     loc2id(@_);
@@ -565,6 +559,10 @@ Transforms the given record locators (or tasks) to regular IDs.
 
 Transform the given IDs into record locators.
 
+=head2 tasks2ids
+
+Deprecated
+
 =head2 comments_on TASK -> (String)s
 
 Returns a list of the comments on the given task.
@@ -610,7 +608,7 @@ L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-Hiveminder>.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2007-2008 Best Practical Solutions.
+Copyright 2007-2009 Best Practical Solutions.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
